@@ -110,6 +110,32 @@
 				i.style.backgroundColor = "white";
 			}
 		}
+
+		function generateDefaultBoard(){
+			board = document.getElementById("board");
+			board.innerHTML = "";
+			maxSize = 960;
+			sq = 16;
+			cellSize = maxSize / sq;
+			board.style.width = maxSize.toString() + "px";
+			board.style.gridTemplateColumns = `repeat(${sq}, ${cellSize}px)`;
+			for (i = 0; i < sq * sq; i++) {
+				var box = document.createElement("div");
+				box.className = "cell";
+				box.addEventListener("mouseover", (f) => {
+					if (modeID == 0)
+						{
+							if (rgbOn == false) event.target.style.backgroundColor = "black";
+							else event.target.style.backgroundColor = randomColor();
+						}
+					else if (modeID == 1)
+						event.target.style.backgroundColor = "white";
+				});
+				board.appendChild(box);
+			}
+		}
+		
+		generateDefaultBoard();
 	</script>
 	
 </body>
