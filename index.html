@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+	<title>etch-a-sketch</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+	<button onclick="changeBoardSize()">Click to change board size</button>
+	<button onclick="changeNumberOfSquaresPerEdge()">Click to change number of squares per edge</button>
+	<button onclick="changeMode()">Mode</button>
+	<button onclick="toggleRGB()">Toggle RGB</button>
+	<button onclick="eraseAll()">Erase All</button>
+	<p id="mode">MODE: draw</p>
+	<p id="rgbmode">RGB: off</p>
+	<div id="board"></div>
+	<script>
+		rgbOn = false;
+		var maxSize = 960;
+		var sq = 16;
+
+		//draw initial board, 16 x 16
+		var modes = ["draw", "erase"];
+		var rgbmodes = ["off", "on"];
+		var modeID = 0;
+
+		function toggleRGB(){
+			rgbOn = !rgbOn;
+			var rgbt = document.getElementById("rgbmode");
+			rgbt.textContent = "RGB: " + rgbmodes[Number(rgbOn)]
+		}
+
+		function randomColor(){
+			list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+			s = "#";
+			for (i = 0; i < 6; i++){
+				s += list[Math.floor(Math.random() * list.length)]
+			}
+			return s;
+		}
+
+		
+
+		function changeMode() {
+			modeID = (modeID + 1) % modes.length;
+			var md = document.getElementById("mode");
+			md.textContent = "MODE: " + modes[modeID];
+		}
+
+		function changeBoardSize(){
+			board = document.getElementById("board");
+			board.innerHTML = "";
+			maxSize = Number(prompt("Enter board size (1-20):")) * 100
+			cellSize = maxSize / sq;
+			board.style.width = maxSize.toString() + "px";
+			board.style.gridTemplateColumns = `repeat(${sq}, ${cellSize}px)`;
+			for (i = 0; i < sq * sq; i++) {
+				var box = document.createElement("div");
+				box.className = "cell";
+				box.addEventListener("mouseover", (f) => {
+					if (modeID == 0)
+						{
+							if (rgbOn == false) event.target.style.backgroundColor = "black";
+							else event.target.style.backgroundColor = randomColor();
+						}
+					else if (modeID == 1)
+						event.target.style.backgroundColor = "white";
+				});
+				board.appendChild(box);
+			}
+		}
+
+
+		function changeNumberOfSquaresPerEdge(){	
+			board = document.getElementById("board");
+			board.innerHTML = "";
+			sq = Number(
+				prompt("Number of squares per edge (less or equal than 100):")
+			);
+			while (sq > 100 || sq < 0) {
+				sq = Number(
+					prompt(
+						"Number of squares per edge (less or equal than 100):"
+					)
+				);
+			}
+			cellSize = maxSize / sq;
+			board.style.width = maxSize.toString() + "px";
+			board.style.gridTemplateColumns = `repeat(${sq}, ${cellSize}px)`;
+			for (i = 0; i < sq * sq; i++) {
+				var box = document.createElement("div");
+				box.className = "cell";
+				box.addEventListener("mouseover", (f) => {
+					if (modeID == 0)
+						{
+							if (rgbOn == false) event.target.style.backgroundColor = "black";
+							else event.target.style.backgroundColor = randomColor();
+						}
+					else if (modeID == 1)
+						event.target.style.backgroundColor = "white";
+				});
+				board.appendChild(box);
+			}
+		}
+
+		
+		
+		function eraseAll(){
+			var boxes = document.getElementsByClassName("cell");
+			for (i of boxes){
+				i.style.backgroundColor = "white";
+			}
+		}
+	</script>
+	
+</body>

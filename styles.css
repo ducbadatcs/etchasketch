@@ -1,0 +1,15 @@
+#board {
+	display: grid;
+	gap: 0px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 500px;
+	border: 10px solid blue
+}
+
+.cell {
+	display: flex;
+	flex: 1 1 auto;
+	aspect-ratio: 1;
+	border: 1px solid black;
+}
