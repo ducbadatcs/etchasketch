@@ -7,10 +7,10 @@
 <body>
 	<button onclick="changeBoardSize()">Click to change board size</button>
 	<button onclick="changeNumberOfSquaresPerEdge()">Click to change number of squares per edge</button>
-	<button onclick="changeMode()">Mode</button>
+	<button onclick="toggleEraser()">Toggle E raser</button>
 	<button onclick="toggleRGB()">Toggle RGB</button>
 	<button onclick="eraseAll()">Erase All</button>
-	<p id="mode">MODE: draw</p>
+	<p id="mode">Eraser: off</p>
 	<p id="rgbmode">RGB: off</p>
 	<div id="board"></div>
 	<script>
@@ -19,7 +19,7 @@
 		var sq = 16;
 
 		//draw initial board, 16 x 16
-		var modes = ["draw", "erase"];
+		var modes = ["off", "on"];
 		var rgbmodes = ["off", "on"];
 		var modeID = 0;
 
@@ -40,10 +40,10 @@
 
 		
 
-		function changeMode() {
+		function toggleEraser() {
 			modeID = (modeID + 1) % modes.length;
 			var md = document.getElementById("mode");
-			md.textContent = "MODE: " + modes[modeID];
+			md.textContent = "Eraser: " + modes[modeID];
 		}
 
 		function changeBoardSize(){
