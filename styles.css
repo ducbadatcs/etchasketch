@@ -1,3 +1,23 @@
+body {
+	background-color: #EFDECD ;
+}
+
+nav {
+	width: 20%;
+	float: left;	
+}
+
+div textarea {
+	display: inline;
+}
+
+
+button:hover {
+	background-color: white;
+	color: #4e2a1b;
+	;
+}
+
 #board {
 	display: grid;
 	gap: 0px;
@@ -12,4 +32,6 @@
 	flex: 1 1 auto;
 	aspect-ratio: 1;
 	border: 1px solid black;
+	
 }
+

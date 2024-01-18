@@ -1,17 +1,23 @@
 <!DOCTYPE html>
+
 <head>
 	<title>etch-a-sketch</title>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
-	<button onclick="changeBoardSize()">Click to change board size</button>
-	<button onclick="changeNumberOfSquaresPerEdge()">Click to change number of squares per edge</button>
-	<button onclick="toggleEraser()">Toggle E raser</button>
-	<button onclick="toggleRGB()">Toggle RGB</button>
-	<button onclick="eraseAll()">Erase All</button>
-	<p id="mode">Eraser: off</p>
-	<p id="rgbmode">RGB: off</p>
+	<nav>
+		<div>Board size: <textarea id="boardsize" cols="7" rows="1"></textarea></div>
+		<div>No. of squares per edge:  <textarea id="boardsquares" cols="7" rows="1"></textarea></div>
+		<div><button onclick="toggleEraser()">Toggle Eraser</button></div>
+		<div><button onclick="toggleRGB()">Toggle RGB</button></div>
+		<div><button onclick="eraseAll()">Erase All</button></div>
+		<div><button onclick="generateBoard()">Apply</button></div>
+		<span id="mode">Eraser: off </span>
+		<span id="rgbmode">RGB: off</span>
+	</nav>
+	
 	<div id="board"></div>
 	<script>
 		rgbOn = false;
@@ -23,22 +29,22 @@
 		var rgbmodes = ["off", "on"];
 		var modeID = 0;
 
-		function toggleRGB(){
+		function toggleRGB() {
 			rgbOn = !rgbOn;
 			var rgbt = document.getElementById("rgbmode");
 			rgbt.textContent = "RGB: " + rgbmodes[Number(rgbOn)]
 		}
 
-		function randomColor(){
+		function randomColor() {
 			list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 			s = "#";
-			for (i = 0; i < 6; i++){
+			for (i = 0; i < 6; i++) {
 				s += list[Math.floor(Math.random() * list.length)]
 			}
 			return s;
 		}
 
-		
+
 
 		function toggleEraser() {
 			modeID = (modeID + 1) % modes.length;
@@ -46,72 +52,14 @@
 			md.textContent = "Eraser: " + modes[modeID];
 		}
 
-		function changeBoardSize(){
-			board = document.getElementById("board");
-			board.innerHTML = "";
-			maxSize = Number(prompt("Enter board size (1-20):")) * 100
-			cellSize = maxSize / sq;
-			board.style.width = maxSize.toString() + "px";
-			board.style.gridTemplateColumns = `repeat(${sq}, ${cellSize}px)`;
-			for (i = 0; i < sq * sq; i++) {
-				var box = document.createElement("div");
-				box.className = "cell";
-				box.addEventListener("mouseover", (f) => {
-					if (modeID == 0)
-						{
-							if (rgbOn == false) event.target.style.backgroundColor = "black";
-							else event.target.style.backgroundColor = randomColor();
-						}
-					else if (modeID == 1)
-						event.target.style.backgroundColor = "white";
-				});
-				board.appendChild(box);
-			}
-		}
-
-
-		function changeNumberOfSquaresPerEdge(){	
-			board = document.getElementById("board");
-			board.innerHTML = "";
-			sq = Number(
-				prompt("Number of squares per edge (less or equal than 100):")
-			);
-			while (sq > 100 || sq < 0) {
-				sq = Number(
-					prompt(
-						"Number of squares per edge (less or equal than 100):"
-					)
-				);
-			}
-			cellSize = maxSize / sq;
-			board.style.width = maxSize.toString() + "px";
-			board.style.gridTemplateColumns = `repeat(${sq}, ${cellSize}px)`;
-			for (i = 0; i < sq * sq; i++) {
-				var box = document.createElement("div");
-				box.className = "cell";
-				box.addEventListener("mouseover", (f) => {
-					if (modeID == 0)
-						{
-							if (rgbOn == false) event.target.style.backgroundColor = "black";
-							else event.target.style.backgroundColor = randomColor();
-						}
-					else if (modeID == 1)
-						event.target.style.backgroundColor = "white";
-				});
-				board.appendChild(box);
-			}
-		}
-
-		
-		
-		function eraseAll(){
+		function eraseAll() {
 			var boxes = document.getElementsByClassName("cell");
-			for (i of boxes){
+			for (i of boxes) {
 				i.style.backgroundColor = "white";
 			}
 		}
 
-		function generateDefaultBoard(){
+		function generateDefaultBoard() {
 			board = document.getElementById("board");
 			board.innerHTML = "";
 			maxSize = 960;
@@ -122,20 +70,43 @@
 			for (i = 0; i < sq * sq; i++) {
 				var box = document.createElement("div");
 				box.className = "cell";
+				box.style.backgroundColor = "white";
 				box.addEventListener("mouseover", (f) => {
-					if (modeID == 0)
-						{
-							if (rgbOn == false) event.target.style.backgroundColor = "black";
-							else event.target.style.backgroundColor = randomColor();
-						}
+					if (modeID == 0) {
+						if (rgbOn == false) event.target.style.backgroundColor = "black";
+						else event.target.style.backgroundColor = randomColor();
+					}
 					else if (modeID == 1)
 						event.target.style.backgroundColor = "white";
 				});
 				board.appendChild(box);
 			}
 		}
-		
+
 		generateDefaultBoard();
+		function generateBoard(){
+			board = document.getElementById("board");
+			board.innerHTML = "";
+			maxSize = Number(document.getElementById("boardsize").value) * 40;
+			sq = sq = Number(document.getElementById("boardsquares").value);
+			cellSize = maxSize / sq;
+			board.style.width = maxSize.toString() + "px";
+			board.style.gridTemplateColumns = `repeat(${sq}, ${cellSize}px)`;
+			for (i = 0; i < sq * sq; i++) {
+				var box = document.createElement("div");
+				box.className = "cell";
+				box.style.backgroundColor = "white";
+				box.addEventListener("mouseover", (f) => {
+					if (modeID == 0) {
+						if (rgbOn == false) event.target.style.backgroundColor = "black";
+						else event.target.style.backgroundColor = randomColor();
+					}
+					else if (modeID == 1)
+						event.target.style.backgroundColor = "white";
+				});
+				board.appendChild(box);
+			}
+		}
 	</script>
-	
+
 </body>
