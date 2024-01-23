@@ -88,7 +88,7 @@
 			board = document.getElementById("board");
 			board.innerHTML = "";
 			maxSize = Number(document.getElementById("boardsize").value) * 40;
-			sq = sq = Number(document.getElementById("boardsquares").value);
+			sq = Number(document.getElementById("boardsquares").value);
 			cellSize = maxSize / sq;
 			board.style.width = maxSize.toString() + "px";
 			board.style.gridTemplateColumns = `repeat(${sq}, ${cellSize}px)`;
